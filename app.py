@@ -36,6 +36,7 @@ st.markdown(f"""
 .block-container {{
     padding-top: 1rem !important;
 }}
+
 /* ── Hero ── */
 .hero {{
     text-align: center;
@@ -79,6 +80,7 @@ h1, h2, h3, h4, h5, h6 {{ color: {TEXT} !important; }}
     padding: 5px;
     border: 1px solid {BORDER};
     justify-content: center;
+    flex-wrap: wrap;
 }}
 .stTabs [data-baseweb="tab"] {{
     border-radius: 10px;
@@ -170,7 +172,6 @@ button[kind="secondary"] {{
     display: flex !important;
     justify-content: center !important;
 }}
-
 [data-testid="stDownloadButton"] > button {{
     width: 280px !important;
     margin: 0 auto !important;
@@ -183,7 +184,6 @@ button[kind="secondary"] {{
     border: none !important;
     transition: all 0.25s ease !important;
 }}
-
 [data-testid="stDownloadButton"] > button:hover {{
     background: #059669 !important;
     color: white !important;
@@ -348,6 +348,100 @@ hr {{ border-color: {BORDER} !important; }}
 
 /* ── Alert ── */
 .stAlert p {{ color: {TEXT} !important; }}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — 768px
+════════════════════════════════════════════ */
+@media (max-width: 768px) {{
+
+    .hero h1 {{ font-size: 2.2rem !important; }}
+    .hero p  {{ font-size: 0.95rem !important; }}
+
+    /* Tabs wrap */
+    .stTabs [data-baseweb="tab-list"] {{
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 7px 14px !important;
+        font-size: 0.82rem !important;
+    }}
+
+    /* Result value smaller */
+    .result-card .result-value {{
+        font-size: 2.2rem !important;
+    }}
+
+    /* Metric row stacks */
+    .metric-row {{
+        flex-direction: column !important;
+    }}
+
+    /* Buttons full width */
+    [data-testid="stButton"] > button {{
+        width: 100% !important;
+    }}
+    [data-testid="stDownloadButton"] > button {{
+        width: 100% !important;
+    }}
+
+    /* Stack all columns vertically */
+    [data-testid="stHorizontalBlock"] {{
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }}
+    [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {{
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+    }}
+}}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — 480px
+════════════════════════════════════════════ */
+@media (max-width: 480px) {{
+
+    .hero h1 {{ font-size: 1.8rem !important; }}
+    .hero p  {{ font-size: 0.88rem !important; }}
+
+    .section-label {{
+        font-size: 0.85rem !important;
+        letter-spacing: 1.5px !important;
+    }}
+
+    .result-card .result-value {{
+        font-size: 1.8rem !important;
+    }}
+    .result-card .result-sub {{
+        font-size: 0.75rem !important;
+    }}
+
+    .stTabs [data-baseweb="tab"] {{
+        padding: 6px 10px !important;
+        font-size: 0.78rem !important;
+    }}
+
+    .metric-card .num {{
+        font-size: 1.4rem !important;
+    }}
+    .metric-card .lbl {{
+        font-size: 0.72rem !important;
+    }}
+
+    .suggestion-box .sg-value {{
+        font-size: 1.6rem !important;
+    }}
+
+    .info-card {{
+        font-size: 0.85rem !important;
+    }}
+
+    .converter-result .cr-label,
+    .converter-result .cr-value {{
+        font-size: 0.82rem !important;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -379,7 +473,7 @@ st.markdown(f"""
 <div class="hero">
     {svg_icon}
     <h1>SemSnap</h1>
-    <h3>Precision for Every Semester`</h3>
+    <h3>Precision for Every Semester</h3>
 </div>
 """, unsafe_allow_html=True)
 
@@ -419,9 +513,6 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # ════════════════════════════════════════════════════════════════════════════
 # TAB 1 — SGPA
 # ════════════════════════════════════════════════════════════════════════════
-# ════════════════════════════════════════════════════════════════════════════
-# TAB 1 — SGPA
-# ════════════════════════════════════════════════════════════════════════════
 with tab1:
     st.markdown(
         '<div class="section-label">SGPA Calculator</div>',
@@ -454,7 +545,6 @@ with tab1:
                 f"<small style='color:{TEXT2}'>Subject Name</small>",
                 unsafe_allow_html=True
             )
-
             st.session_state["subjects"][i]["name"] = st.text_input(
                 f"Subject {i+1}",
                 value=subject["name"],
@@ -469,20 +559,13 @@ with tab1:
                 f"<small style='color:{TEXT2}'>Grade</small>",
                 unsafe_allow_html=True
             )
-
             grade_keys = list(grade_options.keys())
-
-            current_grade = subject.get(
-                "grade",
-                grade_keys[0]
-            )
-
+            current_grade = subject.get("grade", grade_keys[0])
             safe_index = (
                 grade_keys.index(current_grade)
                 if current_grade in grade_keys
                 else 0
             )
-
             st.session_state["subjects"][i]["grade"] = st.selectbox(
                 "Grade",
                 options=grade_keys,
@@ -497,7 +580,6 @@ with tab1:
                 f"<small style='color:{TEXT2}'>Credits</small>",
                 unsafe_allow_html=True
             )
-
             st.session_state["subjects"][i]["credits"] = st.number_input(
                 "Credits",
                 min_value=1,
@@ -513,7 +595,6 @@ with tab1:
                 f"<small style='color:{TEXT2}'>Del</small>",
                 unsafe_allow_html=True
             )
-
             if (
                 st.button("✕", key=f"del_{i}")
                 and len(st.session_state["subjects"]) > 1
@@ -543,7 +624,6 @@ with tab1:
 
     with col_calc:
         if st.button("Calculate SGPA", key="calc_sgpa"):
-
             subjects_data = [
                 {
                     "name": s["name"] or f"Subject {i+1}",
@@ -552,9 +632,7 @@ with tab1:
                 }
                 for i, s in enumerate(st.session_state["subjects"])
             ]
-
             sgpa = calculate_sgpa(subjects_data, scale)
-
             st.session_state["sgpa_result"] = sgpa
             st.session_state["sgpa_subjects"] = subjects_data
             st.session_state["sgpa_semester"] = (
@@ -562,9 +640,7 @@ with tab1:
             )
 
     if "sgpa_result" in st.session_state:
-
         sgpa = st.session_state["sgpa_result"]
-
         st.markdown(
             f"""
             <div class="result-card">
@@ -580,9 +656,7 @@ with tab1:
         )
 
         with st.expander("Subject Breakdown"):
-
             for s in st.session_state["sgpa_subjects"]:
-
                 st.markdown(
                     f"""
                     <div class="info-card">
@@ -595,27 +669,24 @@ with tab1:
                 )
 
         st.divider()
-
         st.markdown(
             '<div class="section-label">Download Report</div>',
             unsafe_allow_html=True
         )
-
         st.markdown(" ")
-
         docx = export_sgpa_report(
             st.session_state["sgpa_subjects"],
             sgpa,
             scale,
             st.session_state["sgpa_semester"]
         )
-
         st.download_button(
             "⬇Download SGPA Report (DOCX)",
             data=docx,
             file_name=f"{st.session_state['sgpa_semester'].replace(' ', '_')}_SGPA.docx",
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
+
 # ════════════════════════════════════════════════════════════════════════════
 # TAB 2 — CGPA
 # ════════════════════════════════════════════════════════════════════════════
