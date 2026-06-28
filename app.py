@@ -348,6 +348,152 @@ hr {{ border-color: {BORDER} !important; }}
 
 /* ── Alert ── */
 .stAlert p {{ color: {TEXT} !important; }}
+
+/* ════════════════════════════════════════════════════════════════════════
+   ── MOBILE RESPONSIVENESS ──
+   Tablets / large phones
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {{
+
+    .block-container {{
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-top: 0.5rem !important;
+    }}
+
+    /* Hero */
+    .hero {{
+        padding: 1.5rem 0.5rem 0.1rem 0.5rem;
+    }}
+    .hero h1 {{
+        font-size: 2rem;
+    }}
+    .hero svg {{
+        width: 42px !important;
+        height: 42px !important;
+    }}
+    .hero p, .hero h3 {{
+        font-size: 0.85rem;
+    }}
+
+    .section-label {{
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }}
+
+    /* Force Streamlit's auto-generated columns to stack vertically
+       so subject rows / semester rows / converter inputs become
+       single-column on narrow screens instead of squeezing. */
+    [data-testid="stHorizontalBlock"] {{
+        flex-wrap: wrap !important;
+        row-gap: 0.4rem !important;
+    }}
+    [data-testid="column"] {{
+        min-width: 100% !important;
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }}
+
+    /* Tabs become smaller + wrap onto 2 lines instead of overflowing */
+    .stTabs [data-baseweb="tab-list"] {{
+        gap: 3px;
+        padding: 4px;
+        flex-wrap: wrap;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 8px 10px;
+        font-size: 0.78rem;
+        flex: 1 1 auto;
+        text-align: center;
+    }}
+
+    /* Primary buttons go full-width on mobile */
+    [data-testid="stButton"] > button {{
+        width: 100% !important;
+    }}
+    [data-testid="stDownloadButton"] > button {{
+        width: 100% !important;
+    }}
+
+    /* Result card */
+    .result-card {{
+        padding: 1.1rem 0.9rem;
+    }}
+    .result-card .result-value {{
+        font-size: 2.2rem;
+    }}
+
+    /* Suggestion box */
+    .suggestion-box {{
+        padding: 1rem;
+        font-size: 0.9rem;
+    }}
+    .suggestion-box .sg-value {{
+        font-size: 1.7rem;
+    }}
+
+    /* Metric row stacks vertically instead of squeezing 3-across */
+    .metric-row {{
+        flex-direction: column;
+        gap: 0.5rem;
+    }}
+    .metric-card {{
+        padding: 0.75rem;
+    }}
+    .metric-card .num {{
+        font-size: 1.3rem;
+    }}
+
+    /* Converter result */
+    .converter-result {{
+        padding: 1rem 0.9rem;
+    }}
+    .converter-result .cr-label {{
+        font-size: 0.8rem;
+    }}
+    .converter-result .cr-value {{
+        font-size: 0.88rem;
+    }}
+
+    /* Expanders */
+    div[data-testid="stExpander"] summary {{
+        padding: 0.75rem 1rem !important;
+        font-size: 0.88rem;
+    }}
+    div[data-testid="stExpander"] > div:last-child {{
+        padding: 0.85rem 1rem !important;
+    }}
+
+    .info-card {{
+        padding: 0.85rem 1rem;
+        font-size: 0.9rem;
+    }}
+}}
+
+/* ════════════════════════════════════════════════════════════════════════
+   Small phones
+   ════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {{
+    .hero h1 {{
+        font-size: 1.6rem;
+    }}
+    .hero svg {{
+        width: 34px !important;
+        height: 34px !important;
+    }}
+    .result-card .result-value {{
+        font-size: 1.8rem;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        padding: 6px 8px;
+        font-size: 0.7rem;
+    }}
+    [data-testid="stButton"] > button,
+    [data-testid="stDownloadButton"] > button {{
+        font-size: 0.85rem !important;
+        padding: 0.65rem 1rem !important;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -379,7 +525,7 @@ st.markdown(f"""
 <div class="hero">
     {svg_icon}
     <h1>SemSnap</h1>
-    <h3>Precision for Every Semester</h3>
+    <h3>Precision for Every Semester`</h3>
 </div>
 """, unsafe_allow_html=True)
 
