@@ -405,23 +405,36 @@ hr {{ border-color: {BORDER} !important; }}
        these rules only exist inside this @media block. */
     [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] {{
         flex-wrap: wrap !important;
+        align-items: flex-end !important;
     }}
-    /* Subject Name — stays first, takes ~72% of the row */
+    /* Subject Name — stays first, takes ~78% of the row */
     [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(1) {{
         order: 1 !important;
-        width: 72% !important;
-        min-width: 72% !important;
-        flex: 1 1 72% !important;
+        width: 78% !important;
+        min-width: 78% !important;
+        flex: 1 1 78% !important;
     }}
-    /* Delete — moved up to sit beside Subject Name */
+    /* Delete — moved up to sit beside Subject Name, small + plain (no color) */
     [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) {{
         order: 2 !important;
-        width: 24% !important;
-        min-width: 24% !important;
-        flex: 1 1 24% !important;
+        width: 18% !important;
+        min-width: 18% !important;
+        flex: 1 1 18% !important;
+    }}
+    /* Hide the "Del" label on mobile — the small ✕ button speaks for itself */
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) small {{
+        display: none !important;
     }}
     [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) button[kind="secondary"] {{
-        width: 100% !important;
+        width: auto !important;
+        min-width: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        color: {TEXT2} !important;
+        box-shadow: none !important;
+        padding: 0.35rem 0.5rem !important;
+        font-size: 1rem !important;
+        margin: 0 !important;
     }}
     /* Grade — drops to its own full-width row */
     [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(2) {{
@@ -437,6 +450,7 @@ hr {{ border-color: {BORDER} !important; }}
         min-width: 100% !important;
         flex: 1 1 100% !important;
     }}
+
 
     /* Tabs become smaller + wrap onto 2 lines instead of overflowing */
     .stTabs [data-baseweb="tab-list"] {{
