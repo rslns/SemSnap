@@ -395,41 +395,43 @@ hr {{ border-color: {BORDER} !important; }}
     }}
 
     /* ── Subject row exception (SGPA tab only) ──────────────────────────
-       This row is the ONLY place in the app with 4 columns
-       (Subject Name / Grade / Credits / Delete), so this selector
-       targets it precisely and leaves every other row (CGPA semesters,
-       Add/Calculate buttons, Suggestions inputs, Converter) on the
-       generic 100%-stacked rule above. PC layout is untouched — these
-       rules only exist inside this @media block. */
-    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) {{
+       Each subject row is wrapped in st.container(key=f"subj_row_{{i}}"),
+       which Streamlit automatically renders with a CSS class named
+       "st-key-subj_row_<i>". We match that class with a substring
+       selector (very widely supported, no :has() needed) so this rule
+       can ONLY ever touch these subject rows — every other row in the
+       app (CGPA semesters, Add/Calculate buttons, Suggestions inputs,
+       Converter) is completely unaffected. PC layout is untouched too —
+       these rules only exist inside this @media block. */
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] {{
         flex-wrap: wrap !important;
     }}
     /* Subject Name — stays first, takes ~72% of the row */
-    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(1) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(1) {{
         order: 1 !important;
         width: 72% !important;
         min-width: 72% !important;
         flex: 1 1 72% !important;
     }}
     /* Delete — moved up to sit beside Subject Name */
-    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(4) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) {{
         order: 2 !important;
         width: 24% !important;
         min-width: 24% !important;
         flex: 1 1 24% !important;
     }}
-    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(4) button[kind="secondary"] {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) button[kind="secondary"] {{
         width: 100% !important;
     }}
     /* Grade — drops to its own full-width row */
-    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(2) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(2) {{
         order: 3 !important;
         width: 100% !important;
         min-width: 100% !important;
         flex: 1 1 100% !important;
     }}
     /* Credits — its own full-width row, after Grade */
-    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(3) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(3) {{
         order: 4 !important;
         width: 100% !important;
         min-width: 100% !important;
@@ -634,79 +636,81 @@ with tab1:
 
     for i, subject in enumerate(st.session_state["subjects"]):
 
-        col1, col2, col3, col4 = st.columns([3, 2, 1.5, 0.5])
+        with st.container(key=f"subj_row_{i}"):
 
-        # Subject Name
-        with col1:
-            st.markdown(
-                f"<small style='color:{TEXT2}'>Subject Name</small>",
-                unsafe_allow_html=True
-            )
+            col1, col2, col3, col4 = st.columns([3, 2, 1.5, 0.5])
 
-            st.session_state["subjects"][i]["name"] = st.text_input(
-                f"Subject {i+1}",
-                value=subject["name"],
-                placeholder=f"Subject {i+1}",
-                key=f"name_{i}",
-                label_visibility="collapsed"
-            )
+            # Subject Name
+            with col1:
+                st.markdown(
+                    f"<small style='color:{TEXT2}'>Subject Name</small>",
+                    unsafe_allow_html=True
+                )
 
-        # Grade
-        with col2:
-            st.markdown(
-                f"<small style='color:{TEXT2}'>Grade</small>",
-                unsafe_allow_html=True
-            )
+                st.session_state["subjects"][i]["name"] = st.text_input(
+                    f"Subject {i+1}",
+                    value=subject["name"],
+                    placeholder=f"Subject {i+1}",
+                    key=f"name_{i}",
+                    label_visibility="collapsed"
+                )
 
-            grade_keys = list(grade_options.keys())
+            # Grade
+            with col2:
+                st.markdown(
+                    f"<small style='color:{TEXT2}'>Grade</small>",
+                    unsafe_allow_html=True
+                )
 
-            current_grade = subject.get(
-                "grade",
-                grade_keys[0]
-            )
+                grade_keys = list(grade_options.keys())
 
-            safe_index = (
-                grade_keys.index(current_grade)
-                if current_grade in grade_keys
-                else 0
-            )
+                current_grade = subject.get(
+                    "grade",
+                    grade_keys[0]
+                )
 
-            st.session_state["subjects"][i]["grade"] = st.selectbox(
-                "Grade",
-                options=grade_keys,
-                index=safe_index,
-                key=f"grade_{i}",
-                label_visibility="collapsed"
-            )
+                safe_index = (
+                    grade_keys.index(current_grade)
+                    if current_grade in grade_keys
+                    else 0
+                )
 
-        # Credits
-        with col3:
-            st.markdown(
-                f"<small style='color:{TEXT2}'>Credits</small>",
-                unsafe_allow_html=True
-            )
+                st.session_state["subjects"][i]["grade"] = st.selectbox(
+                    "Grade",
+                    options=grade_keys,
+                    index=safe_index,
+                    key=f"grade_{i}",
+                    label_visibility="collapsed"
+                )
 
-            st.session_state["subjects"][i]["credits"] = st.number_input(
-                "Credits",
-                min_value=1,
-                max_value=6,
-                value=subject["credits"],
-                key=f"credits_{i}",
-                label_visibility="collapsed"
-            )
+            # Credits
+            with col3:
+                st.markdown(
+                    f"<small style='color:{TEXT2}'>Credits</small>",
+                    unsafe_allow_html=True
+                )
 
-        # Delete
-        with col4:
-            st.markdown(
-                f"<small style='color:{TEXT2}'>Del</small>",
-                unsafe_allow_html=True
-            )
+                st.session_state["subjects"][i]["credits"] = st.number_input(
+                    "Credits",
+                    min_value=1,
+                    max_value=6,
+                    value=subject["credits"],
+                    key=f"credits_{i}",
+                    label_visibility="collapsed"
+                )
 
-            if (
-                st.button("✕", key=f"del_{i}")
-                and len(st.session_state["subjects"]) > 1
-            ):
-                subjects_to_delete.append(i)
+            # Delete
+            with col4:
+                st.markdown(
+                    f"<small style='color:{TEXT2}'>Del</small>",
+                    unsafe_allow_html=True
+                )
+
+                if (
+                    st.button("✕", key=f"del_{i}")
+                    and len(st.session_state["subjects"]) > 1
+                ):
+                    subjects_to_delete.append(i)
 
     for i in sorted(subjects_to_delete, reverse=True):
         st.session_state["subjects"].pop(i)
