@@ -348,210 +348,6 @@ hr {{ border-color: {BORDER} !important; }}
 
 /* ── Alert ── */
 .stAlert p {{ color: {TEXT} !important; }}
-
-/* ════════════════════════════════════════════════════════════════════════
-   ── MOBILE RESPONSIVENESS ──
-   Tablets / large phones
-   ════════════════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {{
-
-    .block-container {{
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        padding-top: 0.5rem !important;
-    }}
-
-    /* Hero */
-    .hero {{
-        padding: 1.5rem 0.5rem 0.1rem 0.5rem;
-    }}
-    .hero h1 {{
-        font-size: 2rem;
-    }}
-    .hero svg {{
-        width: 42px !important;
-        height: 42px !important;
-    }}
-    .hero p, .hero h3 {{
-        font-size: 0.85rem;
-    }}
-
-    .section-label {{
-        font-size: 0.9rem;
-        letter-spacing: 1px;
-    }}
-
-    /* Force Streamlit's auto-generated columns to stack vertically
-       so subject rows / semester rows / converter inputs become
-       single-column on narrow screens instead of squeezing. */
-    [data-testid="stHorizontalBlock"] {{
-        flex-wrap: wrap !important;
-        row-gap: 0.4rem !important;
-    }}
-    [data-testid="stColumn"] {{
-        min-width: 100% !important;
-        width: 100% !important;
-        flex: 1 1 100% !important;
-    }}
-
-    /* ── Subject row exception (SGPA tab only) ──────────────────────────
-       Each subject row is wrapped in st.container(key=f"subj_row_{{i}}"),
-       which Streamlit automatically renders with a CSS class named
-       "st-key-subj_row_<i>". We match that class with a substring
-       selector (very widely supported, no :has() needed) so this rule
-       can ONLY ever touch these subject rows — every other row in the
-       app (CGPA semesters, Add/Calculate buttons, Suggestions inputs,
-       Converter) is completely unaffected. PC layout is untouched too —
-       these rules only exist inside this @media block. */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] {{
-        flex-wrap: wrap !important;
-        align-items: flex-end !important;
-    }}
-    /* Subject Name — stays first, takes ~78% of the row */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(1) {{
-        order: 1 !important;
-        width: 78% !important;
-        min-width: 78% !important;
-        flex: 1 1 78% !important;
-    }}
-    /* Delete — moved up to sit beside Subject Name, small + plain (no color) */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) {{
-        order: 2 !important;
-        width: 18% !important;
-        min-width: 18% !important;
-        flex: 1 1 18% !important;
-    }}
-    /* Hide the "Del" label on mobile — the small ✕ button speaks for itself */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) small {{
-        display: none !important;
-    }}
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) button[kind="secondary"] {{
-        width: auto !important;
-        min-width: 0 !important;
-        background: transparent !important;
-        border: none !important;
-        color: {TEXT2} !important;
-        box-shadow: none !important;
-        padding: 0.35rem 0.5rem !important;
-        font-size: 1rem !important;
-        margin: 0 !important;
-    }}
-    /* Grade — drops to its own full-width row */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(2) {{
-        order: 3 !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        flex: 1 1 100% !important;
-    }}
-    /* Credits — its own full-width row, after Grade */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(3) {{
-        order: 4 !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        flex: 1 1 100% !important;
-    }}
-
-
-    /* Tabs become smaller + wrap onto 2 lines instead of overflowing */
-    .stTabs [data-baseweb="tab-list"] {{
-        gap: 3px;
-        padding: 4px;
-        flex-wrap: wrap;
-    }}
-    .stTabs [data-baseweb="tab"] {{
-        padding: 8px 10px;
-        font-size: 0.78rem;
-        flex: 1 1 auto;
-        text-align: center;
-    }}
-
-    /* Primary buttons go full-width on mobile */
-    [data-testid="stButton"] > button {{
-        width: 100% !important;
-    }}
-    [data-testid="stDownloadButton"] > button {{
-        width: 100% !important;
-    }}
-
-    /* Result card */
-    .result-card {{
-        padding: 1.1rem 0.9rem;
-    }}
-    .result-card .result-value {{
-        font-size: 2.2rem;
-    }}
-
-    /* Suggestion box */
-    .suggestion-box {{
-        padding: 1rem;
-        font-size: 0.9rem;
-    }}
-    .suggestion-box .sg-value {{
-        font-size: 1.7rem;
-    }}
-
-    /* Metric row stacks vertically instead of squeezing 3-across */
-    .metric-row {{
-        flex-direction: column;
-        gap: 0.5rem;
-    }}
-    .metric-card {{
-        padding: 0.75rem;
-    }}
-    .metric-card .num {{
-        font-size: 1.3rem;
-    }}
-
-    /* Converter result */
-    .converter-result {{
-        padding: 1rem 0.9rem;
-    }}
-    .converter-result .cr-label {{
-        font-size: 0.8rem;
-    }}
-    .converter-result .cr-value {{
-        font-size: 0.88rem;
-    }}
-
-    /* Expanders */
-    div[data-testid="stExpander"] summary {{
-        padding: 0.75rem 1rem !important;
-        font-size: 0.88rem;
-    }}
-    div[data-testid="stExpander"] > div:last-child {{
-        padding: 0.85rem 1rem !important;
-    }}
-
-    .info-card {{
-        padding: 0.85rem 1rem;
-        font-size: 0.9rem;
-    }}
-}}
-
-/* ════════════════════════════════════════════════════════════════════════
-   Small phones
-   ════════════════════════════════════════════════════════════════════════ */
-@media (max-width: 480px) {{
-    .hero h1 {{
-        font-size: 1.6rem;
-    }}
-    .hero svg {{
-        width: 34px !important;
-        height: 34px !important;
-    }}
-    .result-card .result-value {{
-        font-size: 1.8rem;
-    }}
-    .stTabs [data-baseweb="tab"] {{
-        padding: 6px 8px;
-        font-size: 0.7rem;
-    }}
-    [data-testid="stButton"] > button,
-    [data-testid="stDownloadButton"] > button {{
-        font-size: 0.85rem !important;
-        padding: 0.65rem 1rem !important;
-    }}
-}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -650,81 +446,79 @@ with tab1:
 
     for i, subject in enumerate(st.session_state["subjects"]):
 
-        with st.container(key=f"subj_row_{i}"):
+        col1, col2, col3, col4 = st.columns([3, 2, 1.5, 0.5])
 
-            col1, col2, col3, col4 = st.columns([3, 2, 1.5, 0.5])
+        # Subject Name
+        with col1:
+            st.markdown(
+                f"<small style='color:{TEXT2}'>Subject Name</small>",
+                unsafe_allow_html=True
+            )
 
-            # Subject Name
-            with col1:
-                st.markdown(
-                    f"<small style='color:{TEXT2}'>Subject Name</small>",
-                    unsafe_allow_html=True
-                )
+            st.session_state["subjects"][i]["name"] = st.text_input(
+                f"Subject {i+1}",
+                value=subject["name"],
+                placeholder=f"Subject {i+1}",
+                key=f"name_{i}",
+                label_visibility="collapsed"
+            )
 
-                st.session_state["subjects"][i]["name"] = st.text_input(
-                    f"Subject {i+1}",
-                    value=subject["name"],
-                    placeholder=f"Subject {i+1}",
-                    key=f"name_{i}",
-                    label_visibility="collapsed"
-                )
+        # Grade
+        with col2:
+            st.markdown(
+                f"<small style='color:{TEXT2}'>Grade</small>",
+                unsafe_allow_html=True
+            )
 
-            # Grade
-            with col2:
-                st.markdown(
-                    f"<small style='color:{TEXT2}'>Grade</small>",
-                    unsafe_allow_html=True
-                )
+            grade_keys = list(grade_options.keys())
 
-                grade_keys = list(grade_options.keys())
+            current_grade = subject.get(
+                "grade",
+                grade_keys[0]
+            )
 
-                current_grade = subject.get(
-                    "grade",
-                    grade_keys[0]
-                )
+            safe_index = (
+                grade_keys.index(current_grade)
+                if current_grade in grade_keys
+                else 0
+            )
 
-                safe_index = (
-                    grade_keys.index(current_grade)
-                    if current_grade in grade_keys
-                    else 0
-                )
+            st.session_state["subjects"][i]["grade"] = st.selectbox(
+                "Grade",
+                options=grade_keys,
+                index=safe_index,
+                key=f"grade_{i}",
+                label_visibility="collapsed"
+            )
 
-                st.session_state["subjects"][i]["grade"] = st.selectbox(
-                    "Grade",
-                    options=grade_keys,
-                    index=safe_index,
-                    key=f"grade_{i}",
-                    label_visibility="collapsed"
-                )
+        # Credits
+        with col3:
+            st.markdown(
+                f"<small style='color:{TEXT2}'>Credits</small>",
+                unsafe_allow_html=True
+            )
 
-            # Credits
-            with col3:
-                st.markdown(
-                    f"<small style='color:{TEXT2}'>Credits</small>",
-                    unsafe_allow_html=True
-                )
+            st.session_state["subjects"][i]["credits"] = st.number_input(
+                "Credits",
+                min_value=1,
+                max_value=6,
+                value=subject["credits"],
+                key=f"credits_{i}",
+                label_visibility="collapsed"
+            )
 
-                st.session_state["subjects"][i]["credits"] = st.number_input(
-                    "Credits",
-                    min_value=1,
-                    max_value=6,
-                    value=subject["credits"],
-                    key=f"credits_{i}",
-                    label_visibility="collapsed"
-                )
+        # Delete
+        with col4:
+            st.markdown(
+                f"<small style='color:{TEXT2}'>Del</small>",
+                unsafe_allow_html=True
+            )
 
-            # Delete
-            with col4:
-                st.markdown(
-                    f"<small style='color:{TEXT2}'>Del</small>",
-                    unsafe_allow_html=True
-                )
-
-                if (
-                    st.button("✕", key=f"del_{i}")
-                    and len(st.session_state["subjects"]) > 1
-                ):
-                    subjects_to_delete.append(i)
+            if (
+                st.button("✕", key=f"del_{i}")
+                and len(st.session_state["subjects"]) > 1
+            ):
+                subjects_to_delete.append(i)
 
     for i in sorted(subjects_to_delete, reverse=True):
         st.session_state["subjects"].pop(i)
