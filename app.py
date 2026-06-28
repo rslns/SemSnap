@@ -388,7 +388,7 @@ hr {{ border-color: {BORDER} !important; }}
         flex-wrap: wrap !important;
         row-gap: 0.4rem !important;
     }}
-    [data-testid="column"] {{
+    [data-testid="stColumn"] {{
         min-width: 100% !important;
         width: 100% !important;
         flex: 1 1 100% !important;
@@ -408,24 +408,24 @@ hr {{ border-color: {BORDER} !important; }}
         align-items: flex-end !important;
     }}
     /* Subject Name — stays first, takes ~78% of the row */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(1) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(1) {{
         order: 1 !important;
         width: 78% !important;
         min-width: 78% !important;
         flex: 1 1 78% !important;
     }}
     /* Delete — moved up to sit beside Subject Name, small + plain (no color) */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) {{
         order: 2 !important;
         width: 18% !important;
         min-width: 18% !important;
         flex: 1 1 18% !important;
     }}
     /* Hide the "Del" label on mobile — the small ✕ button speaks for itself */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) small {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) small {{
         display: none !important;
     }}
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(4) button[kind="secondary"] {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(4) button[kind="secondary"] {{
         width: auto !important;
         min-width: 0 !important;
         background: transparent !important;
@@ -437,14 +437,14 @@ hr {{ border-color: {BORDER} !important; }}
         margin: 0 !important;
     }}
     /* Grade — drops to its own full-width row */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(2) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(2) {{
         order: 3 !important;
         width: 100% !important;
         min-width: 100% !important;
         flex: 1 1 100% !important;
     }}
     /* Credits — its own full-width row, after Grade */
-    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="column"]:nth-child(3) {{
+    [class*="st-key-subj_row_"] [data-testid="stHorizontalBlock"] > [data-testid="stColumn"]:nth-child(3) {{
         order: 4 !important;
         width: 100% !important;
         min-width: 100% !important;
