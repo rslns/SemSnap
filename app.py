@@ -394,6 +394,48 @@ hr {{ border-color: {BORDER} !important; }}
         flex: 1 1 100% !important;
     }}
 
+    /* ── Subject row exception (SGPA tab only) ──────────────────────────
+       This row is the ONLY place in the app with 4 columns
+       (Subject Name / Grade / Credits / Delete), so this selector
+       targets it precisely and leaves every other row (CGPA semesters,
+       Add/Calculate buttons, Suggestions inputs, Converter) on the
+       generic 100%-stacked rule above. PC layout is untouched — these
+       rules only exist inside this @media block. */
+    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) {{
+        flex-wrap: wrap !important;
+    }}
+    /* Subject Name — stays first, takes ~72% of the row */
+    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(1) {{
+        order: 1 !important;
+        width: 72% !important;
+        min-width: 72% !important;
+        flex: 1 1 72% !important;
+    }}
+    /* Delete — moved up to sit beside Subject Name */
+    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(4) {{
+        order: 2 !important;
+        width: 24% !important;
+        min-width: 24% !important;
+        flex: 1 1 24% !important;
+    }}
+    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(4) button[kind="secondary"] {{
+        width: 100% !important;
+    }}
+    /* Grade — drops to its own full-width row */
+    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(2) {{
+        order: 3 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+    }}
+    /* Credits — its own full-width row, after Grade */
+    [data-testid="stHorizontalBlock"]:has(> [data-testid="column"]:nth-child(4)):not(:has(> [data-testid="column"]:nth-child(5))) > [data-testid="column"]:nth-child(3) {{
+        order: 4 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+    }}
+
     /* Tabs become smaller + wrap onto 2 lines instead of overflowing */
     .stTabs [data-baseweb="tab-list"] {{
         gap: 3px;
